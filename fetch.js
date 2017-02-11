@@ -419,7 +419,12 @@
   self.fetch = function(input, init) {
     return new Promise(function(resolve, reject) {
       var request = new Request(input, init)
-      var xhr = new XMLHttpRequest()
+      var xhr
+      if (typeof XMLHttpRequestPollyfill === 'function') {
+        xhr = new XMLHttpRequestPollyfill()
+      } else {
+        xhr = new XMLHttpRequest()
+      }
 
       xhr.onload = function() {
         var options = {
